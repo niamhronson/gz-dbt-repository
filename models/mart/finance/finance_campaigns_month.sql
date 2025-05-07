@@ -1,3 +1,5 @@
+{{config(materalized='table')}}
+
 SELECT
 DATE_TRUNC(date_date, MONTH) AS month,
 round(sum(ads_margin),2) as ads_margin,
