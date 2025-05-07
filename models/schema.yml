@@ -55,4 +55,15 @@ sources:
             description: logistics cost to the company
           - name: ship_cost
             description: shipping cost to the company
-        
+      - name: adwords
+        identifier: raw_gz_adwords
+        description: daily Adwords marketing campaigns 
+      - name: bing
+        identifier: raw_gz_bing
+        description: daily Bing marketing campaigns 
+      - name: criteo
+        identifier: raw_gz_criteo
+        description: daily Criteo marketing campaigns
+      - name: facebook
+        identifier: raw_gz_facebook
+        description: daily Facebook marketing campaigns
