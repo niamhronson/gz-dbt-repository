@@ -1,0 +1,58 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: gz_raw_data
+    tables:
+      - name: sales
+        identifier: raw_gz_sales
+        description: sales of Greenweez / we have on row per product_id found in each orders_id
+         
+         # Freshness testing - make sure to fill in the ...
+        loaded_at_field: CAST(date_date AS TIMESTAMP)
+        freshness:
+          warn_after: {count: 6, period: day}
+
+        tests: 
+          - unique:
+              column_name: "(orders_id || '-' || pdt_id)"
+          - not_null:
+              column_name: "(orders_id || '-' || pdt_id)"
+        columns: 
+          - name: date_date
+            description: date of purchase
+          - name: orders_id
+            description: unique order identifier; can appear multiple times due to multiple items per order
+          - name: products_id
+            description: unique product identifier; may appear in multiple rows
+          - name: revenue
+            description: revenue generated per order
+          - name: quantity 
+            description: number of units of each product purchased per order
+      - name: product
+        identifier: raw_gz_product
+        description: the purchase price for each product_id
+        columns:
+          - name: products_id
+            description: unique product identifier
+            tests: 
+              - not_null
+              - unique
+          - name: purchase_price
+            description: unit price paid for each product
+      - name: ship
+        identifier: raw_gz_ship
+        description: calculates shipping and logistics costs per order, including company expenses and customer charges
+        columns: 
+          - name: orders_id
+            description: unique order identifier
+            tests: 
+              - not_null
+              - unique
+          - name: shipping_fee
+            description: cost of shipping charged to the customer
+          - name: logcost
+            description: logistics cost to the company
+          - name: ship_cost
+            description: shipping cost to the company
+        
