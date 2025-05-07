@@ -67,3 +67,10 @@ sources:
       - name: facebook
         identifier: raw_gz_facebook
         description: daily Facebook marketing campaigns
+
+models:
+  - name: int_campaigns
+    description: union of all paid ads sources
+    tests: 
+      - not_null:
+          column_name: "(date_date || '_' || paid_source)"
